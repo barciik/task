@@ -8,9 +8,9 @@ const URL = 'https://reqres.in/api/products';
 
 function App() {
 	// const [data, setData] = useState(null);
-	const [searchInput, setSearchInput] = useState('');
-	const dispatch = useDispatch()
-	const data = useSelector(state => state.reducer.colors)
+	// const [searchInput, setSearchInput] = useState('');
+	const dispatch = useDispatch();
+	const data = useSelector((state) => state.reducer.colors);
 
 	useEffect(() => {
 		axios.get(URL).then((response) => {
@@ -21,19 +21,26 @@ function App() {
 
 	const searchHandler = (e) => {
 		e.preventDefault();
-		setSearchInput(e.target.value);
+		let searchInput = e.target.value;
+		// setSearchInput(e.target.value);
+
+		dispatch(
+			reducerActions.findColor(
+				data.find((item) => String(item.id).match(String(searchInput)))
+			)
+		);
 	};
 
-	if (searchInput.length > 0) {
-		let arr = data.filter((item) => String(item.id).match(String(searchInput)))
-		dispatch(reducerActions.setColors(arr))
-	}
+	// if (searchInput.length > 0) {
+	// 	let arr = data.filter((item) => String(item.id).match(String(searchInput)))
+	// 	dispatch(reducerActions.setColors(arr))
+	// }
 
 	return (
 		<div className='app'>
 			<form>
 				<input
-					value={searchInput}
+					// value={searchInput}
 					onChange={searchHandler}
 					className='search-bar'
 					type='number'
